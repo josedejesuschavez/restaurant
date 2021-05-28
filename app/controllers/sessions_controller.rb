@@ -5,7 +5,8 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session.delete(:user_id)
+    helpers.logout
+
     redirect_to login_path
   end
 
