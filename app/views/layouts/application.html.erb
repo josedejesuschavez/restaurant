@@ -15,23 +15,20 @@
 
   <body>
     <section class="content">
-      <nav class="side_nav">
-
-        <ul>
-          <li><a href="/">Store</a></li>
-          <li><a href="/cart">Cart</a></li>
+      <nav class="nav" style="display: inline-block">
+        <a class="nav-link" href="/">Store</a>
+        <a class="nav-link" href="/cart">Cart</a>
           <% if session[:user_id] %>
-            <li><a href="/logout">Log out</a></li>
+            <a class="nav-link" href="/logout">Log out</a>
           <% else %>
-            <li><a href="/login">Log in</a></li>
+            <a class="nav-link" href="/login">Log in</a>
           <% end %>
           <% if session[:is_admin] %>
-            <li><a href="/foods">Food</a></li>
-            <li><a href="/users">Users</a></li>
+            <a class="nav-link" href="/foods">Food</a>
+            <a class="nav-link" href="/users">Users</a>
           <% end %>
-        </ul>
       </nav>
-      <main class='<%= controller.controller_name %>'>
+      <main class='<%= controller.controller_name %>' style="display: inline-block">
         <%= yield %>
       </main>
     </section>
