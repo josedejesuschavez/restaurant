@@ -1,25 +1,33 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Carts</h1>
+<h1>Line Items</h1>
 
 <table>
   <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
+  <tr>
+    <th>Food</th>
+    <th>Food</th>
+    <th colspan="3"></th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @carts.each do |cart| %>
-      <tr>
-        <td><%= link_to 'Show', cart %></td>
-        <td><%= link_to 'Edit', edit_cart_path(cart) %></td>
-        <td><%= link_to 'Destroy', cart, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+  <% @line_items.each do |line_item| %>
+    <tr>
+      <td><%= line_item.cart.id %></td>
+      <td><%= line_item.food.title %></td>
+      <td>
+      <%= button_to 'Delete product', delete_line_item_path(line_item_id: line_item.id) %>
+      </td>
+    </tr>
+  <% end %>
   </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New Cart', new_cart_path %>
+<% if @line_items.length > 0 %>
+<%= button_to 'Checkout', cart_checkout_path(cart_id: @line_items.first().cart_id) %>
+<% end %>
+
+<%= button_to 'Continue shopping', store_index_path %>

@@ -1,7 +1,7 @@
 class LineItemsController < ApplicationController
   include CurrentCart
   before_action :set_cart, only: [:create]
-  before_action :set_line_item, only: %i[ show edit update destroy ]
+  before_action :set_line_item, only: %i[ show edit update ]
 
   # GET /line_items or /line_items.json
   def index
@@ -30,7 +30,7 @@ class LineItemsController < ApplicationController
 
     respond_to do |format|
       if @line_item.save
-        format.html { redirect_to @line_item, notice: "Line item was successfully created." }
+        format.html { redirect_to cart_path, notice: "Line item was successfully created." }
         format.json { render :show, status: :created, location: @line_item }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -54,10 +54,13 @@ class LineItemsController < ApplicationController
 
   # DELETE /line_items/1 or /line_items/1.json
   def destroy
-    @line_item.destroy
+    @line_item = LineItem.find(params[:line_item_id])
+
     respond_to do |format|
-      format.html { redirect_to line_items_url, notice: "Line item was successfully destroyed." }
-      format.json { head :no_content }
+      if @line_item.destroy
+        format.html { redirect_to cart_path, notice: "Line item was successfully destroyed." }
+        format.json { head :no_content }
+      end
     end
   end
 

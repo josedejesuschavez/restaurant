@@ -1,4 +1,24 @@
 <p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_cart_path(@cart) %> |
-<%= link_to 'Back', carts_path %>
+<h1>Line Items</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Food</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @line_items.each do |line_item| %>
+    <tr>
+      <td><%= line_item.food.title %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= button_to 'Checkout', new_cart_path(food_id: @line_items) %>
+<%= link_to 'Checkout', cart_path(@line_items) %>
