@@ -18,12 +18,16 @@
       <nav class="side_nav">
 
         <ul>
-          <li><a href="/">Home</a></li>
+          <li><a href="/">Store</a></li>
           <li><a href="/cart">Cart</a></li>
           <% if session[:user_id] %>
             <li><a href="/logout">Log out</a></li>
           <% else %>
             <li><a href="/login">Log in</a></li>
+          <% end %>
+          <% if session[:is_admin] %>
+            <li><a href="/foods">Food</a></li>
+            <li><a href="/users">Users</a></li>
           <% end %>
         </ul>
       </nav>

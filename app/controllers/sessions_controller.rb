@@ -15,6 +15,13 @@ class SessionsController < ApplicationController
 
     if !!@user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
+
+      if @user.is_admin
+        session[:is_admin] = true
+      else
+        session.delete(:is_admin)
+      end
+
       redirect_to store_index_path
     else
       message = "Credentials wrongs!!"

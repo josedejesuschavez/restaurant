@@ -1,5 +1,6 @@
 class FoodsController < ApplicationController
   before_action :set_food, only: %i[ show edit update destroy ]
+  before_action :require_user_is_admin
 
   # GET /foods or /foods.json
   def index
@@ -65,5 +66,15 @@ class FoodsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def food_params
       params.require(:food).permit(:title, :description, :price, :photo, :category_id)
+    end
+
+    def require_user_is_admin
+      begin
+        unless helpers.is_admin?
+          redirect_to store_index_url
+        end
+      rescue
+        redirect_to '/'
+      end
     end
 end
