@@ -1,9 +1,15 @@
-<p id="notice"><%= notice %></p>
-<div>
+<% if notice %>
+<div class="alert alert-primary" role="alert">
+  <p id="notice"><%= notice %></p>
+</div>
+<% end %>
+
+<div class="container">
   <h2>Log In</h2>
-  <%= form_tag '/login' do %>
-    Username: <%= text_field_tag :email %>
-    Password: <%= password_field_tag :password %>
-    <%= submit_tag "Log In" %>>
+  <%= form_tag '/login', method: 'post' do %>
+    Username: <%= text_field_tag :email, '', :class => "form-control" %>
+    Password: <%= password_field_tag :password, '', :class => "form-control" %>
+    </br>
+    <%= submit_tag "Log In", :class => 'btn btn-primary' %>
   <% end %>
 </div>

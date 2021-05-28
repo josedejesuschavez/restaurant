@@ -7,10 +7,9 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_by(email: params[:email])
 
-    byebug
     if !!@user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect_to users_path
+      redirect_to store_index_path
     else
       message = "Credentials wrongs!!"
       redirect_to login_path, notice: message
