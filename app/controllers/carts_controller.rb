@@ -36,16 +36,6 @@ class CartsController < ApplicationController
         format.html { redirect_to login_path, notice: "Logging is needed for checkout cart." }
       end
     end
-    #session.delete(:cart_id)
-    #respond_to do |format|
-    #  if @cart.save
-    #    format.html { redirect_to store_index_path, notice: "Cart was successfully created." }
-    #    format.json { render :show, status: :created, location: @cart }
-    #  else
-    #    format.html { render :new, status: :unprocessable_entity }
-    #    format.json { render json: @cart.errors, status: :unprocessable_entity }
-    #  end
-    #end
   end
 
   # PATCH/PUT /carts/1 or /carts/1.json

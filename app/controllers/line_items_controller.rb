@@ -30,6 +30,7 @@ class LineItemsController < ApplicationController
 
     respond_to do |format|
       if @line_item.save
+        session[:count_food] = LineItem.all.select{ |item| item[:cart_id] == session[:cart_id] }.count
         format.html { redirect_to cart_path, notice: "Line item was successfully created." }
         format.json { render :show, status: :created, location: @line_item }
       else
@@ -58,6 +59,7 @@ class LineItemsController < ApplicationController
 
     respond_to do |format|
       if @line_item.destroy
+        session[:count_food] = LineItem.all.select{ |item| item[:cart_id] == session[:cart_id] }.count
         format.html { redirect_to cart_path, notice: "Line item was successfully destroyed." }
         format.json { head :no_content }
       end
