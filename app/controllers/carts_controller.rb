@@ -31,7 +31,7 @@ class CartsController < ApplicationController
     respond_to do |format|
       if helpers.logged_id?
         session.delete(:cart_id)
-        format.html { redirect_to store_index_path, notice: "Checkout cart successful." }
+        format.html { redirect_to store_index_path, notice: "Checkout cart successful. Your order is #{@cart.id}" }
       else
         format.html { redirect_to login_path, notice: "Logging is needed for checkout cart." }
       end

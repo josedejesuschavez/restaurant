@@ -14,6 +14,22 @@
   </head>
 
   <body>
-    <%= yield %>
+    <section class="content">
+      <nav class="side_nav">
+
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/cart">Cart</a></li>
+          <% if session[:user_id] %>
+            <li><a href="/logout">Log out</a></li>
+          <% else %>
+            <li><a href="/login">Log in</a></li>
+          <% end %>
+        </ul>
+      </nav>
+      <main class='<%= controller.controller_name %>'>
+        <%= yield %>
+      </main>
+    </section>
   </body>
 </html>

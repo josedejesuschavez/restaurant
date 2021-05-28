@@ -1,7 +1,12 @@
 class SessionsController < ApplicationController
-
+  layout 'login'
   def new
     @user = User.new
+  end
+
+  def destroy
+    session.delete(:user_id)
+    redirect_to login_path
   end
 
   def create
