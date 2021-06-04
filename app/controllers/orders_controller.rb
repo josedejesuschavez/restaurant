@@ -10,6 +10,8 @@ class OrdersController < ApplicationController
     else
       @orders = Order.where(user_id: user.id)
     end
+
+    @pagy, @records = pagy(@orders, items: 5)
   end
 
   # GET /orders/1 or /orders/1.json

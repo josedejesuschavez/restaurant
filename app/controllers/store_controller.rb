@@ -1,5 +1,5 @@
 class StoreController < ApplicationController
   def index
-    @products = Food.order(:title)
+    @pagy, @records = pagy(Food.order(:title), items: 10)
   end
 end

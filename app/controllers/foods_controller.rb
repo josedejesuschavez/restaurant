@@ -3,7 +3,7 @@ class FoodsController < AdminController
 
   # GET /foods or /foods.json
   def index
-    @foods = Food.all
+    @pagy, @records = pagy(Food.all, items: 5)
   end
 
   # GET /foods/1 or /foods/1.json

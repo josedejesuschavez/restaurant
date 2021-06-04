@@ -3,8 +3,9 @@ class CartsController < ApplicationController
 
   # GET /carts or /carts.json
   def index
-    @line_items = LineItem.all.select{ |item| item[:cart_id] == session[:cart_id] }
+    @line_items = LineItem.where(cart_id: session[:cart_id])
 
+    @pagy, @records = pagy(@line_items, items: 5)
     if @line_items.count == 0
       flash[:notice] = "Cart is empty!!"
     end
