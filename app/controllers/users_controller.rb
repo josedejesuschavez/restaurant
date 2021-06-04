@@ -3,7 +3,7 @@ class UsersController < AdminController
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @pagy, @records = pagy(User.all, items: 5)
   end
 
   # GET /users/1 or /users/1.json
