@@ -4,13 +4,22 @@ class SessionsController < ApplicationController
     @user = User.new
   end
 
+  def reset_session
+    session.delete(:is_admin)
+    session.delete(:user_id)
+    session.delete(:cart_id)
+    session.delete(:count_food)
+  end
+
   def destroy
     helpers.logout
 
+    reset_session
     redirect_to login_path
   end
 
   def create
+    reset_session
     @user = User.find_by(email: params[:email])
 
     if !!@user && @user.authenticate(params[:password])
@@ -22,7 +31,18 @@ class SessionsController < ApplicationController
         session.delete(:is_admin)
       end
 
-      redirect_to store_index_path
+      cart_pending = Cart.find_by(user_id: @user.id, pending: true)
+      if cart_pending
+        session[:cart_id] = cart_pending.id
+        session[:count_food] = LineItem.where(cart_id: cart_pending.id).count
+      end
+
+      if session[:is_admin]
+        redirect_to foods_path
+      else
+        redirect_to store_index_path
+      end
+
     else
       message = "Credentials wrongs!!"
       redirect_to login_path, notice: message

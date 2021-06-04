@@ -4,13 +4,11 @@
   </div>
 <% end %>
 
-<h1>Cart</h1>
+<h1>Order</h1>
 
 <table class="container">
   <thead>
   <tr>
-    <th></th>
-    <th></th>
     <th></th>
     <th></th>
     <th></th>
@@ -23,10 +21,6 @@
       <td><%= image_tag(line_item.food.photo, height:  '100', width: '100') %></td>
       <td><%= line_item.food.title %></td>
       <td><%= number_to_currency(line_item.price) %></td>
-      <td><%= line_item.order_id %></td>
-      <td>
-      <%= button_to 'Delete product', delete_line_item_path(line_item_id: line_item.id), :class => 'btn btn-primary' %>
-      </td>
     </tr>
   <% end %>
   </tbody>
@@ -36,11 +30,6 @@
 
 <div style="display: inline-block">
   <% if @line_items.length > 0 %>
-    <%= button_to 'Checkout', cart_checkout_path(cart_id: @line_items.first().cart_id), :class => 'btn btn-primary' %>
+    <%= link_to 'Regresar', orders_path, :class => 'btn btn-primary' %>
   <% end %>
 </div>
-
-<div style="display: inline-block">
-  <%= link_to 'Continue shopping', store_index_path, :class => 'btn btn-secondary' %>
-</div>
-

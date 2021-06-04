@@ -8,6 +8,7 @@ class CartsController < ApplicationController
     if @line_items.count == 0
       flash[:notice] = "Cart is empty!!"
     end
+
   end
 
   # GET /carts/1 or /carts/1.json
@@ -30,8 +31,21 @@ class CartsController < ApplicationController
 
     respond_to do |format|
       if helpers.logged_id?
+        line_items = LineItem.where(:cart_id => session[:cart_id])
+        user = User.find_by_id(session[:user_id])
+        order = Order.new(address: '', pay_type: '', user_id: user.id)
+        order.status = "ordered"
+        order.save
+        line_items.each { |line_item|
+          line_item.order_id = order.id
+          line_item.save
+        }
+        @cart.pending = false
+        @cart.save
         session.delete(:cart_id)
-        format.html { redirect_to store_index_path, notice: "Checkout cart successful. Your order is #{@cart.id}" }
+        session.delete(:count_food)
+
+        format.html { redirect_to edit_order_path(order.id), notice: "Checkout cart successful. Your order is #{order.id}" }
       else
         format.html { redirect_to login_path, notice: "Logging is needed for checkout cart." }
       end
@@ -55,7 +69,7 @@ class CartsController < ApplicationController
   def destroy
     @cart.destroy
     respond_to do |format|
-      format.html { redirect_to carts_url, notice: "Cart was successfully destroyed." }
+      format.html { redirect_to cart_url, notice: "Cart was successfully destroyed." }
       format.json { head :no_content }
     end
   end

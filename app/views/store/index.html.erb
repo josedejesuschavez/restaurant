@@ -10,7 +10,7 @@
   <div class="row justify-content-start">
     <% @products.each do |food| %>
       <% cache food do %>
-        <div class="col-4" style="margin-top: 30px;">
+        <div class="col-3" style="margin: 30px;">
           <%= image_tag(food.photo, height:  '100', width: '100') %>
           <h2><%= food.title %></h2>
           <div class="price">
