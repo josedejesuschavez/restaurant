@@ -1,15 +1,17 @@
 class CartsController < ApplicationController
   before_action :set_cart, only: %i[ show edit update destroy ]
+  before_action :calculate_subtotal_cart
 
   # GET /carts or /carts.json
   def index
-    @line_items = LineItem.where(cart_id: session[:cart_id])
+    if Current.cart
+      @line_items = LineItem.where(cart_id: Current.cart.id)
 
-    @pagy, @records = pagy(@line_items, items: 5)
-    if @line_items.count == 0
-      flash[:notice] = "Cart is empty!!"
+      @pagy, @records = pagy(@line_items, items: 5)
+      if @line_items.count == 0
+        flash[:notice] = "Cart is empty!!"
+      end
     end
-
   end
 
   # GET /carts/1 or /carts/1.json
@@ -32,8 +34,8 @@ class CartsController < ApplicationController
 
     respond_to do |format|
       if helpers.logged_id?
-        line_items = LineItem.where(:cart_id => session[:cart_id])
-        user = User.find_by_id(session[:user_id])
+        line_items = LineItem.where(:cart_id => Current.cart.id)
+        user = User.find_by_id(Current.user.id)
         order = Order.new(address: '', pay_type: '', user_id: user.id)
         order.status = "ordered"
         order.save

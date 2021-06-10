@@ -10,8 +10,9 @@
   <thead>
   <tr>
     <th></th>
-    <th></th>
-    <th></th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Quantity</th>
   </tr>
   </thead>
 
@@ -21,11 +22,19 @@
       <td><%= image_tag(line_item.food.photo, height:  '100', width: '100') %></td>
       <td><%= line_item.food.title %></td>
       <td><%= number_to_currency(line_item.price) %></td>
+
+      <% if line_item.quantity != nil %>
+      <td><%= line_item.quantity %></td>
+        <% else %>
+        <td>1</td>
+      <% end %>
     </tr>
   <% end %>
   </tbody>
 </table>
-
+<div style="text-align: center;">
+  Subtotal: <%= number_to_currency(Current.sub_total) %>
+</div>
 <br>
 
 <div style="display: inline-block">

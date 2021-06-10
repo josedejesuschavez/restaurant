@@ -1,6 +1,5 @@
 class LineItemsController < ApplicationController
-  include CurrentCart
-  before_action :set_cart, only: [:create]
+  #before_action :set_cart, only: [:create]
   before_action :set_line_item, only: %i[ show edit update ]
 
   # GET /line_items or /line_items.json
@@ -24,16 +23,18 @@ class LineItemsController < ApplicationController
   # POST /line_items or /line_items.json
   def create
     food = Food.find(params[:food_id])
-    @line_item = @cart.line_items.build(food: food)
-    cart = Cart.find(session[:cart_id])
+    unless Current.cart
+      cart = Cart.new(user_id: Current.user.id, pending: true)
+      cart.save
+      Current.cart = cart
+    end
+    cart = Cart.find(Current.cart.id)
     cart.pending = true
     cart.save
-    @line_item = LineItem.new(cart_id: session[:cart_id], food_id: food.id, price: food.price)
+    @line_item = LineItem.new(cart_id: Current.cart.id, food_id: food.id, price: food.price, quantity: 1)
 
     respond_to do |format|
       if @line_item.save
-        session[:count_food] = LineItem.where(cart_id: session[:cart_id]).count
-        #session[:count_food] = LineItem.all.select{ |item| item[:cart_id] == session[:cart_id] }.count
         format.html { redirect_to cart_path, notice: "Line item was successfully created." }
         format.json { render :show, status: :created, location: @line_item }
       else
@@ -62,7 +63,6 @@ class LineItemsController < ApplicationController
 
     respond_to do |format|
       if @line_item.destroy
-        session[:count_food] = LineItem.where(cart_id: session[:cart_id]).count
         format.html { redirect_to cart_path, notice: "Line item was successfully destroyed." }
         format.json { head :no_content }
       end

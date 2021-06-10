@@ -9,7 +9,7 @@
       <th>Pay type</th>
       <th>Status</th>
       <th>Created date</th>
-      <% if session[:is_admin] %>
+      <% if Current.user.is_admin %>
         <th></th>
       <% end %>
     </tr>
@@ -29,7 +29,7 @@
         <% if order.status == "ordered" or order.status == "paid" %>
           <td><%= link_to 'Cancel', cancel_order_path(order) %></td>
         <% end %>
-        <% if session[:is_admin] %>
+        <% if Current.user.is_admin %>
           <% if order.status == "ordered" %>
             <td><%= link_to 'Mark as paid', paid_order_path(order) %></td>
           <% end %>

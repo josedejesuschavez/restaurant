@@ -16,13 +16,13 @@
 <body>
 <section class="content">
   <nav class="nav" style="display: inline-block; vertical-align: top;">
-    <% if session[:is_admin] %>
+    <% if Current.user.is_admin %>
       <%= link_to 'Food', foods_path, class: "nav-link" %>
       <%= link_to 'Users', users_path, class: "nav-link" %>
       <%= link_to 'Orders', orders_path, class: "nav-link" %>
     <% end %>
     </br>
-    <% if session[:user_id] %>
+    <% if Current.user.id %>
       <a class="nav-link" href="/logout">Log out</a>
     <% else %>
       <a class="nav-link" href="/login">Log in</a>

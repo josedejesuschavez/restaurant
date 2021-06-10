@@ -1,11 +1,13 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
+  before_action :calculate_subtotal_order
+
 
   # GET /orders or /orders.json
   def index
-    user = User.find_by_id(session[:user_id])
+    user = User.find_by_id(Current.user.id)
 
-    if session[:is_admin]
+    if Current.user.is_admin
       @orders = Order.all
     else
       @orders = Order.where(user_id: user.id)
@@ -16,6 +18,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1 or /orders/1.json
   def show
+    session[:order_id] = params[:id]
     @line_items = LineItem.where(order_id: params[:id])
   end
 
