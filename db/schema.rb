@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_10_053517) do
+ActiveRecord::Schema.define(version: 2021_06_10_102548) do
+
+  create_table "Categories_Foods", id: false, force: :cascade do |t|
+    t.integer "Food_id", null: false
+    t.integer "Category_id", null: false
+    t.index ["Category_id", "Food_id"], name: "index_Categories_Foods_on_category_id_and_food_id"
+    t.index ["Food_id", "Category_id"], name: "index_Categories_Foods_on_food_id_and_category_id"
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
