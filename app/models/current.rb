@@ -3,4 +3,5 @@ class Current < ActiveSupport::CurrentAttributes
   attribute :cart
   attribute :count_items_cart
   attribute :sub_total
+  attribute :order_selected
 end

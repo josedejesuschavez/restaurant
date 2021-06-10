@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
   before_action :calculate_subtotal_order
   layout :get_layout
+  before_action :current_order
 
   def get_layout
     Current.user.is_admin ? 'admin' : 'application'

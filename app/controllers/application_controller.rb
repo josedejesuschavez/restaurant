@@ -51,4 +51,9 @@ class ApplicationController < ActionController::Base
 
     Current.sub_total = sub_total
   end
+
+  def current_order
+    order = Order.find(session[:order_id])
+    Current.order_selected = order
+  end
 end
