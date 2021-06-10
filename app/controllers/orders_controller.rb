@@ -1,7 +1,11 @@
 class OrdersController < ApplicationController
   before_action :set_order, only: %i[ show edit update destroy ]
   before_action :calculate_subtotal_order
+  layout :get_layout
 
+  def get_layout
+    Current.user.is_admin ? 'admin' : 'application'
+  end
 
   # GET /orders or /orders.json
   def index
