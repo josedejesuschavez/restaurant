@@ -30,6 +30,13 @@ class CartsController < ApplicationController
 
   # POST /carts or /carts.json
   def create
+    params.each do |param|
+      if param[0].include? "line-item_"
+        line_item = LineItem.find(param[0].split(/_/)[1])
+        line_item.quantity = param[1]
+        line_item.save
+      end
+    end
     @cart = Cart.find(params[:cart_id])
 
     respond_to do |format|

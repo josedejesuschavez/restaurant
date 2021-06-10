@@ -24,7 +24,9 @@ class OrdersController < ApplicationController
   # GET /orders/1 or /orders/1.json
   def show
     session[:order_id] = params[:id]
-    @line_items = LineItem.where(order_id: params[:id])
+    current_order
+    calculate_subtotal_order
+    @line_items = LineItem.where(order_id: Current.order_selected.id)
   end
 
   # GET /orders/new

@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
       line_items = LineItem.where(cart_id: Current.cart.id)
       sub_total = 0
       line_items.each do |line_item|
-        sub_total += line_item.price
+        sub_total += (line_item.price * line_item.quantity)
       end
 
       Current.sub_total = sub_total
@@ -41,12 +41,11 @@ class ApplicationController < ActionController::Base
   end
 
   def calculate_subtotal_order
-    #byebug
     line_items = LineItem.where(
       order_id: session[:order_id])
     sub_total = 0
     line_items.each do |line_item|
-      sub_total += line_item.price
+      sub_total += (line_item.price * line_item.quantity)
     end
 
     Current.sub_total = sub_total
