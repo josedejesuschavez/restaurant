@@ -1,6 +1,7 @@
 class Food < ApplicationRecord
   has_many :line_items
   belongs_to :category
+  has_and_belongs_to_many :category
   before_destroy :ensure_not_referenced_by_any_line_item
   validates :description, :title, presence: true
   validates :title, uniqueness: true
